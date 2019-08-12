@@ -10,6 +10,7 @@
             AddDirectory(selected_path.FullName, Root)
             TreeView1.Nodes.Add(Root)
             Button2.Enabled = True
+            Label1.Text = selected_path.FullName
         End If
     End Sub
 
@@ -21,9 +22,8 @@
         Dim folderTreeHTML = IO.File.ReadAllText(destDir.FullName & "\resources\foldertree.html")
         IO.File.WriteAllText(destDir.FullName & "\resources\foldertree.html", folderTreeHTML.Replace("FOLDERTREE_PLACEHOLDER", data))
 
-
         getFolderChilds(TreeView1.Nodes)
-
+        MsgBox("Export Completed successfully!", MsgBoxStyle.OkOnly, "Export complete")
     End Sub
 
     Function getStringChilds(tree As TreeNodeCollection) As String

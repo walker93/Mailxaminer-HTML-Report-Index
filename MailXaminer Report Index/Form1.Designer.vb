@@ -31,7 +31,8 @@ Partial Class Form1
         '
         'FBD1
         '
-        Me.FBD1.SelectedPath = "D:\report mail\report libero\adriano.turso@libero.it\1"
+        Me.FBD1.RootFolder = System.Environment.SpecialFolder.MyComputer
+        Me.FBD1.ShowNewFolderButton = False
         '
         'Label1
         '
@@ -39,14 +40,14 @@ Partial Class Form1
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.Location = New System.Drawing.Point(13, 13)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(285, 18)
+        Me.Label1.Size = New System.Drawing.Size(196, 18)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "C:\"
         '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(304, 8)
+        Me.Button1.Location = New System.Drawing.Point(215, 8)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 1
@@ -55,16 +56,19 @@ Partial Class Form1
         '
         'TreeView1
         '
+        Me.TreeView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TreeView1.Location = New System.Drawing.Point(12, 34)
         Me.TreeView1.Name = "TreeView1"
         Me.TreeView1.PathSeparator = "=-="
-        Me.TreeView1.Size = New System.Drawing.Size(367, 222)
+        Me.TreeView1.Size = New System.Drawing.Size(278, 222)
         Me.TreeView1.TabIndex = 2
         '
         'Button2
         '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.Location = New System.Drawing.Point(304, 260)
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.Location = New System.Drawing.Point(215, 260)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 3
@@ -75,7 +79,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(391, 295)
+        Me.ClientSize = New System.Drawing.Size(302, 295)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.TreeView1)
         Me.Controls.Add(Me.Button1)
