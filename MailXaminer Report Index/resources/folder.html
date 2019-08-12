@@ -1,0 +1,169 @@
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>INDEX_PAGE_TTILE_PLACEHOLDER</title>
+    <link rel="stylesheet" type="text/css" href="../../DataTables/datatables.min.css" />
+    <script type="text/javascript" src="../../DataTables/datatables.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../DateTimePicker/daterangepicker.css" />
+
+    <script type="text/javascript" src="../../DateTimePicker/moment.min.js"></script>
+    <script type="text/javascript" src="../../DateTimePicker/daterangepicker.js"></script>
+    <script type="text/javascript">
+        $("document").ready(function () {
+
+            $('#table_id tfoot tr').appendTo('#table_id thead');
+            var table = $('#table_id').DataTable({
+
+                "order": [3, 'desc'],
+                dom: 'ilfrtp',
+                buttons: false,
+                searching: true,
+                colReorder: true,
+                fixedHeader: true,
+                paging: false,
+                ordering: true,
+                "columnDefs": [
+                    { "className": 'dt-body-center half-size', "targets": 4 },
+                    { "orderable": false, "targets": 4 },
+                    { "searchable": true, "targets": 4 },
+                    { "type": "date", "targets": 3 },
+                    { "width": "5%", "targets": 4 },
+                    { "visible": false, "targets": 5 }
+                ],
+                "columns": [
+                    { "data": "Subject" },
+                    { "data": "From" },
+                    { "data": "To" },
+                    { "data": "Date" },
+                    {
+                        "data": "Attachments",
+                        render: function (data, type, row) {
+                            // If display data is converted
+                            if (type === 'display') {
+                                return ((data == "true") ? "🔴" : "")
+                            }
+                            return data;
+                        }
+                    },
+                    { "data": "link" }
+                ]
+            });
+
+            $('#table_id').on('click', 'tbody tr', function () {
+                parent.postMessage(["mailbody", table.rows(this).data()[0]["link"]], "*");
+            });
+            $(window).on('resize', function () {
+                table.columns.adjust().draw();
+            });
+
+            $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+                let box = $("#fdate").val();
+                let min = new Date(box.split(" - ")[0]);
+                let max = new Date(box.split(" - ")[1]);
+                let cell = new Date(data[3]);
+                return min <= cell && cell <= max
+            });
+
+            // Apply the search
+            table.columns().eq(0).each(function (colIdx) {
+                $('input[type="text"]', table.column(colIdx).header()).on('keyup change', function () {
+                    table.column(colIdx).search(this.value).draw();
+                });
+
+                $('#fattchments', table.column(colIdx).header()).on('change', function () {
+                    table.column(colIdx).search($('#fattchments').val()).draw();
+                });
+
+                $('#fdate').daterangepicker({
+                    opens: "center",
+                    //TODO: minDate e maxDate;
+                    "startDate": "1970/01/01 00:00",
+                    "endDate": "2050/12/31 23:59",
+                    linkedCalendars: true,
+                    timePicker: true,
+                    timePicker24Hour: true,
+                    timePickerSeconds: false,
+                    "showDropdowns": true,
+                    autoUpdateInput: true,
+                    locale: {
+                        "format": "YYYY/MM/DD HH:mm",
+                        "separator": " - ",
+                        "cancelLabel": "Reset"
+                    }
+                });
+
+                $('#fdate').on('apply.daterangepicker', function (ev, picker) {
+                    //console.log(picker.startDate.format('YYYY/MM/DD HH:mm'), picker.endDate.format('YYYY/MM/DD HH:mm'));
+                    let startDate = picker.startDate.format('YYYY/MM/DD HH:mm');
+                    let endDate = picker.endDate.format('YYYY/MM/DD HH:mm');
+                    $('#fdate').val(startDate + " - " + endDate);
+                    table.draw();
+                });
+
+                $('#fdate').on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('1970/01/01 00:00 - 2050/12/31 23:59');
+                    table.draw();
+                });
+
+                $('input', table.column(colIdx).header()).on('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
+        });
+    </script>
+    <style>
+        td.half-size {
+            font-size: 0.5em;
+        }
+
+        input[type="text"],
+        #fdate {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="table_id" class="display compact" width="100%">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Attachments</th>
+                <th>link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Your Trenitalia </td>
+                <td>Trenitalia &lt;webmaster@trenitalia.it&gt;</td>
+                <td>Trenitalia &lt;info@trenitalia.it&gt;</td>
+                <td>2018/12/10 19:37</td>
+                <td>false</td>
+                <td>INBOX/06-04-2019_info@lentiamo.it_solo_oggi.html</td>
+            </tr>
+            ROWS_PLACEHOLDER
+        </tbody>
+        <tfoot>
+            <tr>
+                <th><input type="text" id="fsubject" placeholder="Cerca oggetto"></th>
+                <th><input type="text" id="ffrom" placeholder="Cerca Da"></th>
+                <th><input type="text" id="fto" placeholder="Cerca A"></th>
+                <th><input type="search" id="fdate"></th>
+                <th><select id="fattchments">
+                        <option value="">Tutto</option>
+                        <option value="true">Con allegati</option>
+                        <option value="false">Senza allegati</option>
+                    </select>
+                </th>
+                <th>link</th>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html>

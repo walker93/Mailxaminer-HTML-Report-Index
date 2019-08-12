@@ -1,0 +1,85 @@
+<html>
+
+<head>
+  <meta charset='utf-8' />
+  <title>INDEX_PAGE_TTILE_PLACEHOLDER</title>
+  <style>
+    .row2 {
+      flex: 1;
+      height: 55%;
+    }
+
+    .row1 {
+      width: 100%;
+      height: 40%;
+    }
+
+    #mailbody,
+    #maillist,
+    #foldertree {
+      height: 100%;
+      width: 100%;
+      display: block;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      align-content: stretch;
+      height: 99%;
+      width: 80%;
+      float: right;
+    }
+
+    .folders {
+      width: 20%;
+      height: 99%;
+      float: left;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 99.8%;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css" />
+  <script type="text/javascript" src="DataTables/datatables.min.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('message', function (event) {
+      if (event.source === document.getElementById("maillist").contentWindow) {
+        loadIframe(event.data[0], event.data[1]);
+      } else if (event.source === document.getElementById("foldertree").contentWindow) {
+        loadIframe("maillist", "folders/" + event.data[0] + ".html");
+      }
+    });
+
+    function loadIframe(iframeName, url) {
+      var $iframe = $('#' + iframeName);
+      if ($iframe.length) {
+        $iframe.attr('src', url);
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+
+<body>
+  <div class="folders">
+    <iframe id="foldertree" src="foldertree.html"></iframe>
+  </div>
+  <div class="container">
+    <div class="row1">
+      <iframe id="maillist" src=""> </iframe>
+    </div>
+    <div class="row2">
+      <iframe id="mailbody" src=""></iframe>
+    </div>
+  </div>
+</body>
+
+</html>
