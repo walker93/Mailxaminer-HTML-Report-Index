@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="JSTree/themes/default/style.min.css">
@@ -11,45 +10,20 @@
             let tree = $("#tree-container").jstree({
                 "core": {
                     "multiple": false,
-                    "data": [{
-                        'text': 'pippo@hotmail.it',
-                        'state': { 'opened': true },
-                        'children': [
-                            { 'text': 'SPAM' },
-                            { 'text': 'Deleted' },
-                            {
-                                'text': 'INBOX',
-                                'children': [
-                                    { 'text': 'Archivio 2017' },
-                                    { 'text': 'Archivio 2018' }
-                                ]
-                            },
-                            {
-                                'text': 'OUTBOX',
-                                'children': [
-                                    { 'text': 'personali' }
-                                ]
-                            }
-                        ]
-                    }, FOLDERTREE_PLACEHOLDER]
+                    "data": [FOLDERTREE_PLACEHOLDER]
                 },
                 "plugins": ["wholerow", "changed"]
             });
 
             tree.on("changed.jstree", function (e, data) {
-
-                parent.postMessage([data.instance.get_path(data.changed.selected, "/")], "*");
+                parent.postMessage([data.instance.get_path(data.changed.selected, "=-=")], "*");
             })
         });
     </script>
 </head>
-
 <body>
     <div id="tree-container">
 
     </div>
-
-
 </body>
-
 </html>
