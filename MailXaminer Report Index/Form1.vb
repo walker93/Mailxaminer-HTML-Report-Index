@@ -68,8 +68,12 @@
                             from_email = content.Replace("<", "&lt;").Replace(">", "&gt;")
                         Case "Sent On:"
                             Dim substring = content.Substring(0, content.IndexOf("(")).Trim
-                            Dim data = Date.ParseExact(substring, "dd/MM/yyyy HH:mm:ss", provider)
-                            sent_on = data.ToString("yyyy/MM/dd HH:mm:ss")
+                            Try
+                                Dim data = Date.ParseExact(substring, "dd/MM/yyyy HH:mm:ss", provider)
+                                sent_on = data.ToString("yyyy/MM/dd HH:mm:ss")
+                            Catch ex As Exception
+                                sent_on = "1970/01/01 00:00:00"
+                            End Try
                         Case "Subject:"
                             subject = content
                         Case "To:"
