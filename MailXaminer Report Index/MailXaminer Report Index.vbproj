@@ -288,9 +288,16 @@
     <Content Include="resources\DateTimePicker\drp.png" />
     <Content Include="resources\DateTimePicker\moment.min.js" />
     <Content Include="resources\DateTimePicker\package.js" />
-    <None Include="resources\foldertree.html" />
-    <None Include="resources\folder.html" />
-    <None Include="resources\index.html" />
+    <None Include="resources\DataTables\pdfmake.min.js.map" />
+    <Resource Include="resources\foldertree.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\folder.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="resources\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="resources\JSTree\jstree.js" />
     <Content Include="resources\JSTree\jstree.min.js" />
     <Content Include="resources\JSTree\themes\default-dark\32px.png" />

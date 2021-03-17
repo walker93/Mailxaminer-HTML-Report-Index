@@ -27,6 +27,7 @@ Partial Class Form1
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TreeView1 = New System.Windows.Forms.TreeView()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.ProgressLBL = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'FBD1
@@ -75,11 +76,21 @@ Partial Class Form1
         Me.Button2.Text = "&Report"
         Me.Button2.UseVisualStyleBackColor = True
         '
+        'ProgressLBL
+        '
+        Me.ProgressLBL.AutoSize = True
+        Me.ProgressLBL.Location = New System.Drawing.Point(13, 265)
+        Me.ProgressLBL.Name = "ProgressLBL"
+        Me.ProgressLBL.Size = New System.Drawing.Size(48, 13)
+        Me.ProgressLBL.TabIndex = 4
+        Me.ProgressLBL.Text = "Progress"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(302, 295)
+        Me.Controls.Add(Me.ProgressLBL)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.TreeView1)
         Me.Controls.Add(Me.Button1)
@@ -90,6 +101,7 @@ Partial Class Form1
         Me.ShowIcon = False
         Me.Text = "MailXaminer Report Index"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -98,4 +110,5 @@ Partial Class Form1
     Friend WithEvents Button1 As Button
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents Button2 As Button
+    Friend WithEvents ProgressLBL As Label
 End Class

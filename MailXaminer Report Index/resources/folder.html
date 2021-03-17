@@ -17,8 +17,66 @@
             var table = $('#table_id').DataTable({
 
                 "order": [3, 'desc'],
-                dom: 'ilfrtp',
-                buttons: false,
+                dom: 'lfrBitp',
+                buttons: [{
+                    extend: 'collection',
+                    text: 'Esporta tabella',
+
+                    buttons: [{
+                        extend: 'excel',
+                        text: 'Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4],
+                            format: {
+                                header: function (inner, coldex, node) {
+                                    switch (coldex) {
+                                        case 0: return "Subject";
+                                        case 1: return "From";
+                                        case 2: return "To";
+                                        case 3: return "Date";
+                                        case 4: return "Attachments";
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'PDF',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4],
+                            format: {
+                                header: function (inner, coldex, node) {
+                                    switch (coldex) {
+                                        case 0: return "Subject";
+                                        case 1: return "From";
+                                        case 2: return "To";
+                                        case 3: return "Date";
+                                        case 4: return "Attachments";
+                                    }
+                                }
+                            }
+                        }
+                    },
+                     {
+                         extend: 'print',
+                         text: 'Stampa',
+                         exportOptions: {
+                             columns: [0, 1, 2, 3, 4],
+                             format: {
+                                 header: function (inner, coldex, node) {
+                                     switch (coldex) {
+                                         case 0: return "Subject";
+                                         case 1: return "From";
+                                         case 2: return "To";
+                                         case 3: return "Date";
+                                         case 4: return "Attachments";
+                                     }
+                                 }
+                             }
+                         }
+                     }]
+                }],
                 searching: true,
                 colReorder: true,
                 fixedHeader: true,

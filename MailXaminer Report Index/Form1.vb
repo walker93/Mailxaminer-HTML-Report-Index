@@ -17,6 +17,7 @@
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Dim data = getStringChilds(TreeView1.Nodes)
         destDir = New IO.DirectoryInfo(FBD1.SelectedPath).Parent
+        'If IO.Directory.Exists(destDir.FullName & "\resources") Then IO.Directory.Delete(destDir.FullName & "\resources", True)
         My.Computer.FileSystem.CopyDirectory("resources", destDir.FullName & "\resources", True)
         My.Computer.FileSystem.MoveFile(destDir.FullName & "\resources\index.html", destDir.FullName & "\index.html", True)
         Dim folderTreeHTML = IO.File.ReadAllText(destDir.FullName & "\resources\foldertree.html")
@@ -45,6 +46,9 @@
             Dim searchPath = destDir.FullName & "\" & child.FullPath.Replace("=-=", "\")
             Dim files = New IO.DirectoryInfo(searchPath).GetFiles
             For Each file In files
+                Application.DoEvents()
+                ProgressLBL.Text = String.Format("{0}/{1} cartella - File {2}/{3}", tree.IndexOf(child), tree.Count, Array.IndexOf(files, file), files.Length)
+
                 Dim rows As HtmlAgilityPack.HtmlNodeCollection
                 Dim from_email As String = ""
                 Dim to_email As String = ""
@@ -54,12 +58,16 @@
                 Try
                     Dim HTML As New HtmlAgilityPack.HtmlDocument()
                     Dim contentHTML As String = IO.File.ReadAllText(file.FullName)
+                    contentHTML = contentHTML.Replace(emailEdit, "")
+                    contentHTML = contentHTML.Insert(contentHTML.IndexOf("<font"), emailEdit)
+                    IO.File.WriteAllText(file.FullName, contentHTML)
                     HTML.LoadHtml(contentHTML.Substring(0, contentHTML.IndexOf("<hr>")))
                     Dim table = HTML.DocumentNode.SelectNodes("//table")(0)
                     rows = table.SelectNodes("//tr")
                 Catch ex As Exception
                     Continue For
                 End Try
+
                 For Each row As HtmlAgilityPack.HtmlNode In rows
                     Dim header = row.FirstChild.InnerText.Trim
                     Dim content = row.ChildNodes(1).InnerText.Trim
@@ -67,12 +75,18 @@
                         Case "From:"
                             from_email = content.Replace("<", "&lt;").Replace(">", "&gt;")
                         Case "Sent On:"
-                            Dim substring = content.Substring(0, content.IndexOf("(")).Trim
                             Try
+                                Dim substring = content.Substring(0, content.IndexOf("(")).Trim
                                 Dim data = Date.ParseExact(substring, "dd/MM/yyyy HH:mm:ss", provider)
                                 sent_on = data.ToString("yyyy/MM/dd HH:mm:ss")
                             Catch ex As Exception
-                                sent_on = "1970/01/01 00:00:00"
+                                Try
+                                    Dim substring = content.Substring(0, content.IndexOf("(")).Trim
+                                    Dim data = Date.ParseExact(substring, "dd/MM/yyyy HH:mm", provider)
+                                    sent_on = data.ToString("yyyy/MM/dd HH:mm")
+                                Catch exc As Exception
+                                    sent_on = "1970/01/01 00:00:00"
+                                End Try
                             End Try
                         Case "Subject:"
                             subject = content
@@ -92,7 +106,7 @@
                 treeBuilder.AppendLine("<td>" & link & "</td>")
                 treeBuilder.AppendLine("</tr>")
             Next
-            IO.File.WriteAllText(destDir.FullName & "\resources\folders\" & child.FullPath & ".html", exportHTML.Replace("ROWS_PLACEHOLDER", treeBuilder.ToString))
+            IO.File.WriteAllText(destDir.FullName & "\resources\folders\" & child.FullPath & ".html", exportHTML.Replace("ROWS_PLACEHOLDER", treeBuilder.ToString).Replace("INDEX_PAGE_TTILE_PLACEHOLDER", searchPath))
             Application.DoEvents()
             getFolderChilds(child.Nodes)
         Next

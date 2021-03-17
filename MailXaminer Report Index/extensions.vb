@@ -32,4 +32,19 @@ Module extensions
         End If
         Return commonpath
     End Function
+
+    Public emailEdit As String = "
+<style>
+    @media print{
+        input {
+            display: none;
+        }
+    }
+</style>
+<input type = 'button' title='Stampa E-mail' onclick='window.print()' value='🖨️ Stampa'>
+<input type = 'button' title='Apri E-mail' onclick=""window.open(location.href, '_blank')"" value='🔎 Apri'>
+"
+
+
+
 End Module
